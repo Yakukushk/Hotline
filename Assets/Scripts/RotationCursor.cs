@@ -8,7 +8,7 @@ public class RotationCursor : MonoBehaviour
     Vector3 mousePos; // vector component 
     Camera cam; // camera 
     Rigidbody rig; // rigidbody
-    bool isActiveRotation = false; // bool 
+    [SerializeField] private bool isActiveRotation = false; // bool 
     private void Start()
     {
         rig = GetComponent<Rigidbody>(); // get valued rigidbody components 

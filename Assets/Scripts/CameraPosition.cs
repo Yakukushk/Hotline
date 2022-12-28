@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraPosition : MonoBehaviour
 {
     GameObject player;
-   public bool isFollow = true;
+   [SerializeField]private bool isFollow = true;
     Camera cam;
     movement move;
     Vector3 mousePos;
@@ -51,7 +51,7 @@ public class CameraPosition : MonoBehaviour
         Vector3 camPos = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
         camPos.z = -10;
         Vector3 direction = camPos - this.transform.position;
-        if (player.GetComponent<MeshFilter>().sharedMesh == true) {
+        if (player.GetComponent<MeshRenderer>().isVisible == true) {
             transform.Translate(direction * 2 * Time.deltaTime);
         }
 

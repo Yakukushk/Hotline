@@ -20,6 +20,6 @@ public class CrosshairCursor : MonoBehaviour
 
         Debug.Log("mousePosition = " + Input.mousePosition);
         Debug.Log("mouseCursorPos = " + mouseCursorPos);
-        transform.position = mouseCursorPos;
+        this.transform.position = mouseCursorPos;
     }
 }
