@@ -15,19 +15,18 @@ public class BulletTrailScript : MonoBehaviour
         this._targetPosition = _targetPosition;
         this._process = _process;
     }
-    private void Start()
-    {
-        _startPosition = this.transform.position.AxisWith(Axis.Z, -1);
-    }
+    
     private void Update()
     {
         MetodProcess();
     }
     private void MetodProcess() {
-        _process += Time.deltaTime;
-        Vector3 vectorMethod = Vector3.Lerp(_startPosition, _targetPosition, _process);
-        this.transform.position = vectorMethod;
+      
 
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
     }
     public void SetTargetPosition(Vector3 target) {
         _targetPosition = target.AxisWith(Axis.Z, - 1);

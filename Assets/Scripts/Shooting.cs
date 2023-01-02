@@ -9,7 +9,7 @@ public class Shooting : MonoBehaviour
     [Header("Items")]
     [SerializeField] Camera cam;
     [SerializeField] private LayerMask groundMask;
-     public Transform laserOrigin;
+    public Transform laserOrigin;
     private bool success;
     private Vector3 position;
     [SerializeField] private Transform aimedTransform;
@@ -17,7 +17,7 @@ public class Shooting : MonoBehaviour
     public float gunRange = 50f;
     public float fireRate = 0.2f;
     public float laserDuration = 0.05f;
-    [SerializeField]LineRenderer laserLine;
+    [SerializeField] LineRenderer laserLine;
     float fireTimer;
     #endregion
     #region ForSecondRaycastMethod
@@ -26,6 +26,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private Transform gunPoint;
     [SerializeField] private GameObject _bulletTrail;
     [SerializeField] private float _weaponRange = 20f;
+    [SerializeField] private GameObject _effectBullet;
     movement Movement;
    // [SerializeField] private Animator _anim;
     #endregion
@@ -55,24 +56,13 @@ public class Shooting : MonoBehaviour
       
         
         if (Input.GetMouseButtonDown(0)) {
-            //// _anim.SetTrigger("Shoot");
-            // var _hit = Physics2D.Raycast(gunPoint.position, transform.up, _weaponRange);
-            // var trail = Instantiate(_bulletTrail, gunPoint.position, this.transform.rotation);
-            // var trailScript = trail.GetComponent<BulletTrailScript>();
-            // if (_hit.collider != null)
-            // {
-            //     trailScript.SetTargetPosition(_hit.point);
-            //     // var hettable = _hit.collider.GetComponent<IHittable>();
-            //     // hettable?.Hit();
-            // }
-            // else {
-            //     var endPosition = gunPoint.position + transform.position * _weaponRange;
-            //     trailScript.SetTargetPosition(endPosition);
-            // }
+        
 
             var bullet = Instantiate(_bulletTrail, gunPoint.position, gunPoint.rotation);
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-            rb.AddForce(gunPoint.forward * _weaponRange, ForceMode2D.Impulse);
+            var FX = Instantiate(_effectBullet, gunPoint.position, gunPoint.rotation);
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.AddForce(gunPoint.forward * _weaponRange, ForceMode.Impulse);
+            Destroy(FX, 1f);
             Destroy(bullet, 2f);
 
         }

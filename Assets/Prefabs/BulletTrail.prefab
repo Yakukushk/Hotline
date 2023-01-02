@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8079215195689488746}
   - component: {fileID: 8079215195689488747}
   - component: {fileID: 284255935677338613}
-  - component: {fileID: 3519665499746090271}
+  - component: {fileID: 3585514583347708796}
   m_Layer: 0
   m_Name: BulletTrail
   m_TagString: Untagged
@@ -154,24 +154,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 40
---- !u!50 &3519665499746090271
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!54 &3585514583347708796
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8079215195689488744}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
+  serializedVersion: 2
   m_Mass: 1
-  m_LinearDrag: 0
+  m_Drag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_UseGravity: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
   m_Constraints: 0
+  m_CollisionDetection: 0
