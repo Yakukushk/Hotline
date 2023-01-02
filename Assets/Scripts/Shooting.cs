@@ -9,7 +9,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Transform prefabSpawn;
-    GameObject projectilePrefab;
+    //GameObject projectilePrefab;
     public Transform laserOrigin;
     private bool success;
     private Vector3 position;
@@ -62,15 +62,6 @@ public class Shooting : MonoBehaviour
             transform.forward = direction;
         }
     }
-    private void Shoot()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            var projectile = Instantiate(projectilePrefab, projectilePrefab.transform.position, Quaternion.identity);
-            projectile.transform.forward = aimedTransform.forward;
-        }
-    }
-
     private void ShootingRaycast() {
 
         fireTimer += Time.deltaTime;
@@ -80,14 +71,14 @@ public class Shooting : MonoBehaviour
             laserLine.SetPosition(0, laserOrigin.position);
             Vector3 rayOrigin = cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;
-            if (Physics.Raycast(rayOrigin, cam.transform.forward, out hit, gunRange))
+            if (Physics.Raycast(rayOrigin, this.gameObject.transform.forward, out hit, gunRange))
             {
                 laserLine.SetPosition(1, hit.point);
-                //Destroy(hit.transform.gameObject);
+                Destroy(hit.transform.gameObject);
             }
             else
             {
-                laserLine.SetPosition(1, rayOrigin + (cam.transform.forward * gunRange));
+                laserLine.SetPosition(1, rayOrigin + (this.gameObject.transform.forward * gunRange));
             }
             StartCoroutine(ShootLaser());
         }
