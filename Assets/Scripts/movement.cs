@@ -1,52 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class movement : MonoBehaviour
 {
-    public bool isActive = false;
+    [Header("Values")]
+    #region Values
+    private bool isActive = false;
     public bool isActiveMovement = true;
-    public float speed = 5f;
+    public Camera cam;
+    [SerializeField]private float speed = 5f;
+    [SerializeField]private float Mousespeed = 100;
+    #endregion
 
+    public void Start()
+    {
+        cam = Camera.main;
+    }
     public void Update()
     {
-        if (isActiveMovement == true)
+        if (SetMoving(true) == true)
         {
             PlayerMovement();
+            PlayerRotation();
         }
-        checkMovement(isActive);
+        else
+        {
+            checkMovement(false);
+        }
     }
-    public void SetMoving(bool val) {
-        isActiveMovement = val;         
+    public bool SetMoving(bool val) {
+        isActiveMovement = val;
+        return val;
     }
     public void PlayerMovement() {
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(Vector3.up * speed * Time.deltaTime, Space.World);
-            isActive = true;
-            Debug.Log(this.gameObject.activeSelf + "Active W");
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
-            isActive = true;
-            Debug.Log(this.gameObject.activeSelf + "Active A");
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(Vector3.right * speed * Time.deltaTime, Space.World);
-            isActive = true;
-            Debug.Log(this.gameObject.activeSelf + "Active D");
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
-            isActive = true;
-            Debug.Log(this.gameObject.activeSelf + "Active S");
-        }
-
+        float _horizontal = Input.GetAxis("Horizontal");
+        float _verctical = Input.GetAxis("Vertical");
+        Vector3 pos = new Vector3(_horizontal, 0, _verctical);
+        transform.Translate(pos * speed * Time.deltaTime, Space.World);
     }
+    public void PlayerRotation() {
+        RaycastHit _hit;
+        Ray _ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(_ray, out _hit)) {
+            var vector3 = new Vector3(_hit.point.x, transform.position.y, _hit.point.z);
+            this.transform.LookAt(vector3);
+        }
+    }
+
     public void checkMovement(bool Active) {
         if (Input.GetKey(KeyCode.D) != true && Input.GetKey(KeyCode.A) != true && Input.GetKey(KeyCode.W) != true && Input.GetKey(KeyCode.S) != true)
         {
