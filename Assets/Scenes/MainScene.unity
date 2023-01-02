@@ -388,8 +388,9 @@ MonoBehaviour:
   laserLine: {fileID: 0}
   _speed: 5
   gunPoint: {fileID: 1324769483}
-  _bulletTrail: {fileID: 1000012871492402, guid: 7af6b07676c52b94ba63b3fa7ff7d0fd, type: 3}
+  _bulletTrail: {fileID: 8079215195689488744, guid: 39c217fe844298e4ea39d4ce93d5f989, type: 3}
   _weaponRange: 20
+  _effectBullet: {fileID: 1845955007268882, guid: 67a684e320da6e7439421a07e3fa265c, type: 3}
 --- !u!120 &503401554
 LineRenderer:
   m_ObjectHideFlags: 0
