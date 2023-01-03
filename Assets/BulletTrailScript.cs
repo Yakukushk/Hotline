@@ -9,6 +9,8 @@ public class BulletTrailScript : MonoBehaviour
     private Vector3 _targetPosition;
     private float _process;
     [SerializeField] private float _speed = 40f;
+    public GameObject _bulletHole;
+    public GameObject _bulletPoint;
     #endregion
     public BulletTrailScript (Vector3 _startPosition, Vector3 _targetPosition, float _process){
         this._startPosition = _startPosition;
@@ -24,10 +26,7 @@ public class BulletTrailScript : MonoBehaviour
       
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-    }
+
     public void SetTargetPosition(Vector3 target) {
         _targetPosition = target.AxisWith(Axis.Z, - 1);
      }

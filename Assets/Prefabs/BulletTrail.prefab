@@ -148,12 +148,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8079215195689488744}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edbe5fc6df1e2ce4c93661ca42c29182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 40
+  _bulletHole: {fileID: 3521902145875540421, guid: 79056dc283d10c541ae5be7ae8210bfb,
+    type: 3}
+  _bulletPoint: {fileID: 0}
 --- !u!54 &3585514583347708796
 Rigidbody:
   m_ObjectHideFlags: 0

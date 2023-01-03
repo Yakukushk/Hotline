@@ -25,8 +25,10 @@ public class Shooting : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private Transform gunPoint;
     [SerializeField] private GameObject _bulletTrail;
+    [SerializeField] private GameObject _bulletHole;
     [SerializeField] private float _weaponRange = 20f;
     [SerializeField] private GameObject _effectBullet;
+    [SerializeField] private float _distance = 10f;
     movement Movement;
    // [SerializeField] private Animator _anim;
     #endregion
@@ -56,10 +58,24 @@ public class Shooting : MonoBehaviour
       
         
         if (Input.GetMouseButtonDown(0)) {
-        
+
+            RaycastHit hit;
+            Ray rayOrigin = cam.ScreenPointToRay(Input.mousePosition);  
+            if (Physics.Raycast(transform.position, transform.forward, out hit))
+            {
+                if (hit.collider.tag == "Wall")
+                {
+                    var Holes = Instantiate(_bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
+                    Vector3 direction = hit.point - gunPoint.position;
+                    gunPoint.rotation = Quaternion.LookRotation(direction);
+                    Destroy(Holes, 4f);
+                    Debug.Log("Hole");
+                }
+            }
 
             var bullet = Instantiate(_bulletTrail, gunPoint.position, gunPoint.rotation);
             var FX = Instantiate(_effectBullet, gunPoint.position, gunPoint.rotation);
+            
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.AddForce(gunPoint.forward * _weaponRange, ForceMode.Impulse);
             Destroy(FX, 1f);
