@@ -134,8 +134,6 @@ public class CrosshairWithGizmos : MonoBehaviour
                     if(!double.IsNaN(crosshairPos.x) || !double.IsNaN(crosshairPos.y) || !double.IsNaN(crosshairPos.z))
                         crosshairRenderer.transform.position = crosshairPos;
                 }
-                crosshairRenderer.transform.position = new Vector3(crosshairRenderer.transform.position.x,
-                    crosshairRenderer.transform.position.y + 0.01f, crosshairRenderer.transform.position.z );
             }
             #endregion
 }
