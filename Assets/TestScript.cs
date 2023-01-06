@@ -10,6 +10,10 @@ public class TestScript : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private GameObject gameObjects;
     public float maxhp, hplevel = 10f;
+    public float blinkIntensity;
+    public float blinkDuraction;
+    float blinkTimer;
+    MeshRenderer meshRenderer;
     
     #endregion
 
@@ -22,20 +26,28 @@ public class TestScript : MonoBehaviour
     {
         hplevel = maxhp;
         rb = GetComponent<Rigidbody>();
+        meshRenderer = GetComponent<MeshRenderer>();   
     }
     //private void OnMouseDown()
     //{
     //    Instantiate(gameObjects, transform.position, Quaternion.identity);
     //    Destroy(this.gameObject);
     //}
-
+    private void Update()
+    {
+        blinkTimer -= Time.deltaTime;
+        float lerp = Mathf.Clamp01(blinkTimer / blinkDuraction);
+        float intensity = (lerp * blinkIntensity) + 1.0f;
+        meshRenderer.material.color = Color.gray * intensity;
+    }
     public void TakeDamage(float damageAmount) {
         hplevel -= damageAmount;
         if (hplevel <= 0) {
             Instantiate(gameObjects, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
+        blinkTimer = blinkDuraction;     
     }
-
+   
 
 }
