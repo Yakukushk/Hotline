@@ -17,14 +17,16 @@ public class BulletTrailScript : MonoBehaviour
         this._targetPosition = _targetPosition;
         this._process = _process;
     }
-    
-    private void Update()
-    {
-        MetodProcess();
-    }
-    private void MetodProcess() {
-      
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Bullet")
+        {
+            if (other.gameObject.TryGetComponent<TestScript>(out TestScript testScript))
+            {
+                testScript.TakeDamage(1f);
+            }
+        }
     }
 
     public void SetTargetPosition(Vector3 target) {
