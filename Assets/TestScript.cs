@@ -12,6 +12,7 @@ public class TestScript : MonoBehaviour
     public float maxhp, hplevel = 10f;
     public float blinkIntensity;
     public float blinkDuraction;
+    public GameObject FX;
     float blinkTimer;
     MeshRenderer meshRenderer;
     
@@ -44,7 +45,9 @@ public class TestScript : MonoBehaviour
         hplevel -= damageAmount;
         if (hplevel <= 0) {
             Instantiate(gameObjects, transform.position, Quaternion.identity);
+            var effect = Instantiate(FX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+            Destroy(effect, 0.1f);
         }
         blinkTimer = blinkDuraction;     
     }
