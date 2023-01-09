@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Shootable
   - Wall
+  - Points
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Postprocessing
   - Obstacle
   - Ground
-  - 
+  - Player
   - 
   - 
   - 
