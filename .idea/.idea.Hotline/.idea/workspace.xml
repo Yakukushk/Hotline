@@ -7,9 +7,7 @@
     <list default="true" id="d2f276ea-d601-4dcd-a3fc-62ce80208bc5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Hotline/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Hotline/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RotationCursor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RotationCursor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/movement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/movement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/StayingAndShootingEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/StayingAndShootingEnemy.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +95,9 @@
       <workItem from="1672773139087" duration="18788000" />
       <workItem from="1672864928925" duration="518000" />
       <workItem from="1673113426183" duration="3692000" />
-      <workItem from="1673202174926" duration="25214000" />
+      <workItem from="1673202174926" duration="26345000" />
+      <workItem from="1673286686785" duration="4434000" />
+      <workItem from="1673383808887" duration="12543000" />
     </task>
     <servers />
   </component>
