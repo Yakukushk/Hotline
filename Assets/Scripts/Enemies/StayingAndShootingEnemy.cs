@@ -3,45 +3,39 @@ using UnityEngine;
 public class StayingAndShootingEnemy : MonoBehaviour
 {
     private float timeToRotate = 1f;
-    private float speedOfRotation = 5f;
+    private float speedOfRotation = 20f;
     private float startWaitTime = 1f;
+    private float timeToRotateToStartRotation = 10f;
 
     [SerializeField] private float viewRadius = 15f;
     [SerializeField] private float viewAngle = 90f;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private LayerMask obstacleMask;
 
-    private Vector3 m_PlayerPosition;
-    private Vector3 firstPlayerRotation;
+    private Vector3 playerPositionForEnemy = Vector3.zero;
+    private Quaternion startPlayerRotation;
 
     private float enemyWaitTime;
-    private float EnemyTimeToRotate;
-    private bool enemyLookingOnPlayer;
-    private bool playerInEnemyRange;
+    private float enemyTimeToRotate;
+    private float enemyTimeToRotateToStartRotation;
+    
+    private bool enemyLookingOnPlayer = false;
+    private bool playerInEnemyRange = false;
     private bool playerIsNearEnemy;
-    private bool enemyIsPatrolingOnPoint;
-    private bool enemyCanShoot;
-    private bool isDetectedFromBehind;
+    private bool enemyIsPatrolingOnPoint = true;
+    private bool enemyLookngOnStartPoint = true;
 
 
     private void Start()
     {
-        firstPlayerRotation = transform.localEulerAngles;
+        startPlayerRotation = transform.rotation;
         enemyWaitTime = startWaitTime;
-
-        m_PlayerPosition = Vector3.zero;
-        enemyIsPatrolingOnPoint = true;
-        enemyLookingOnPlayer = false;
-        enemyCanShoot = true;
-        isDetectedFromBehind = false;
-        playerInEnemyRange = false;
-        EnemyTimeToRotate = timeToRotate;
-
+        enemyTimeToRotate = timeToRotate;
+        enemyTimeToRotateToStartRotation = timeToRotateToStartRotation;
     }
 
     private void Update()
     {
-        //Debug.Log("enemyLookingOnPlayer = " + enemyLookingOnPlayer + " PlayerInEnemyRange = " + playerInEnemyRange + " isPatrolling = " + enemyIsPatrolingOnPoint + " playerIsNearEnemy = " + playerIsNearEnemy);
         EnviromentView();
 
         if (enemyIsPatrolingOnPoint == false)
@@ -50,20 +44,7 @@ public class StayingAndShootingEnemy : MonoBehaviour
             {
                 if (enemyLookingOnPlayer == false)
                 {
-                    Vector3 dirToPlayer = (m_PlayerPosition - transform.position).normalized;
-                    if (Vector3.Angle(transform.forward, dirToPlayer) <= 5f)
-                    {
-                        enemyLookingOnPlayer = true;
-                    }
-                    else
-                    {
-                        var newRotation =
-                            Quaternion.LookRotation(m_PlayerPosition - transform.position, Vector3.forward);
-
-                        newRotation = new Quaternion(0, newRotation.y, 0, newRotation.w);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation,
-                            speedOfRotation * Time.deltaTime);
-                    }
+                    TurnToPlayerPosition();
                 }
                 else
                 {
@@ -79,7 +60,8 @@ public class StayingAndShootingEnemy : MonoBehaviour
 
     private void Shooting()
     {
-        var targetLook = new Vector3(m_PlayerPosition.x, transform.position.y, m_PlayerPosition.z);
+        var targetLook = new Vector3(playerPositionForEnemy.x, transform.position.y, playerPositionForEnemy.z);
+        
         transform.LookAt(targetLook);
     }
 
@@ -87,19 +69,68 @@ public class StayingAndShootingEnemy : MonoBehaviour
     {
         if (playerIsNearEnemy)
         {
-            if (EnemyTimeToRotate <= 0)
+            if (enemyTimeToRotate <= 0)
             {
-                PlayerWasDetectedByEnemy(m_PlayerPosition);
+                PlayerWasDetectedByEnemy(playerPositionForEnemy);
             }
             else
             {
-                EnemyTimeToRotate -= Time.deltaTime;
+                enemyTimeToRotate -= Time.deltaTime;
             }
         }
         else
         {
             enemyWaitTime = startWaitTime;
-            EnemyTimeToRotate = timeToRotate;
+            enemyTimeToRotate = timeToRotate;
+        }
+
+        if (!enemyLookngOnStartPoint)
+        {
+            if (enemyTimeToRotateToStartRotation <= 0)
+            {
+                TurnToStartPointOfView();
+            }
+            else
+            {
+                enemyTimeToRotateToStartRotation -= Time.deltaTime;
+            }
+        }
+    }
+
+    private void TurnToPlayerPosition()
+    {
+        Vector3 dirToPlayer = (playerPositionForEnemy - transform.position).normalized;
+        
+        if (Vector3.Angle(transform.forward, dirToPlayer) <= 5f)
+        {
+            enemyLookingOnPlayer = true;
+        }
+        else
+        {
+            enemyTimeToRotateToStartRotation = timeToRotateToStartRotation;
+            enemyLookngOnStartPoint = false;
+            
+            var newRotation =
+                Quaternion.LookRotation(playerPositionForEnemy - transform.position, Vector3.forward);
+
+            newRotation = new Quaternion(0, newRotation.y, 0, newRotation.w);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation,
+                speedOfRotation * Time.deltaTime);
+        }
+    }
+
+    private void TurnToStartPointOfView()
+    {
+        if (transform.rotation != startPlayerRotation)
+        {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, startPlayerRotation,
+                speedOfRotation * 10 * Time.deltaTime);
+
+        }
+        else
+        {
+            enemyLookngOnStartPoint = true;
+            enemyTimeToRotateToStartRotation = timeToRotateToStartRotation;
         }
     }
 
@@ -109,8 +140,9 @@ public class StayingAndShootingEnemy : MonoBehaviour
         {
             enemyIsPatrolingOnPoint = false;
             playerInEnemyRange = true;
+            
             enemyWaitTime = startWaitTime;
-            EnemyTimeToRotate = timeToRotate;
+            enemyTimeToRotate = timeToRotate;
         }
         else
         {
@@ -134,14 +166,15 @@ public class StayingAndShootingEnemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.position) <= 5f)
                 {
                     playerIsNearEnemy = true;
-                    m_PlayerPosition = player.position;
+                    playerPositionForEnemy = player.position;
+                    
                 }
                 else
                 {
                     playerIsNearEnemy = false;
                 }
 
-                if (Vector3.Angle(transform.forward, dirToPlayer) < viewAngle / 2)
+                if (Vector3.Angle(transform.forward, dirToPlayer) < viewAngle / 2 && Vector3.Distance(transform.position, player.position) <= viewRadius)
                 {
                     playerInEnemyRange = true;
                     enemyIsPatrolingOnPoint = false;
@@ -159,7 +192,8 @@ public class StayingAndShootingEnemy : MonoBehaviour
 
             if (playerInEnemyRange)
             {
-                m_PlayerPosition = player.transform.position;
+                playerPositionForEnemy = player.transform.position;
+                
                 enemyIsPatrolingOnPoint = false;
             }
             else
@@ -167,7 +201,6 @@ public class StayingAndShootingEnemy : MonoBehaviour
                 enemyLookingOnPlayer = false;
                 enemyIsPatrolingOnPoint = true;
             }
-
         }
     }
 }
