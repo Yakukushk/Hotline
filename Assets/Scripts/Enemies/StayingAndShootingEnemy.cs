@@ -35,7 +35,6 @@ public class StayingAndShootingEnemy : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("playerIsNearEnemy = " + playerIsNearEnemy);
         EnviromentView();
 
         if (enemyIsPatrolingOnPoint == false)
