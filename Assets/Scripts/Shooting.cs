@@ -1,42 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [System.Serializable]
 [RequireComponent(typeof(LineRenderer))]
 public class Shooting : MonoBehaviour
 {
     #region ForFirstRaycastMethod
-    [Header("Items")]
-    [SerializeField] Camera cam;
+
+    [Header("Items")] [SerializeField] Camera cam;
     [SerializeField] private LayerMask groundMask;
     public Transform laserOrigin;
     private bool success;
     private Vector3 position;
     [SerializeField] private Transform aimedTransform;
-    [Header("floats")]
-    public float gunRange = 50f;
+    [Header("floats")] public float gunRange = 50f;
     public float fireRate = 0.2f;
     public float laserDuration = 0.05f;
     [SerializeField] LineRenderer laserLine;
     float fireTimer;
+
     #endregion
+
     #region ForSecondRaycastMethod
-    [Header("New Method")]
-    [SerializeField] private float _speed;
+
+    [Header("New Method")] [SerializeField]
+    private float _speed;
+
     [SerializeField] private Transform gunPoint;
     [SerializeField] private GameObject _bulletTrail;
     [SerializeField] private GameObject _bulletHole;
     [SerializeField] private float _weaponRange = 20f;
     [SerializeField] private GameObject _effectBullet;
     [SerializeField] private float _distance = 10f;
+
     movement Movement;
-   // [SerializeField] private Animator _anim;
+    // [SerializeField] private Animator _anim;
+
     #endregion
-    public Shooting(bool success, Vector3 position) {
+
+    public Shooting(bool success, Vector3 position)
+    {
         this.success = success;
         this.position = position;
     }
-    public Shooting(float _speed, Transform gunPoint, GameObject bulletTrail) {
+
+    public Shooting(float _speed, Transform gunPoint, GameObject bulletTrail)
+    {
         this._speed = _speed;
         this.gunPoint = gunPoint;
         this._bulletTrail = bulletTrail;
@@ -48,19 +58,20 @@ public class Shooting : MonoBehaviour
         laserLine = GetComponent<LineRenderer>();
         Movement = GetComponent<movement>();
     }
+
     private void Update()
     {
         //Aim();
         //ShootingRaycast();
         Shoot();
     }
-    private void Shoot() {
-      
-        
-        if (Input.GetMouseButtonDown(0)) {
 
+    private void Shoot()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
             RaycastHit hit;
-            Ray rayOrigin = cam.ScreenPointToRay(Input.mousePosition);  
+            Ray rayOrigin = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(transform.position, transform.forward, out hit))
             {
                 if (hit.collider.tag == "Wall")
@@ -75,15 +86,16 @@ public class Shooting : MonoBehaviour
 
             var bullet = Instantiate(_bulletTrail, gunPoint.position, gunPoint.rotation);
             var FX = Instantiate(_effectBullet, gunPoint.position, gunPoint.rotation);
-            
+
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.AddForce(gunPoint.forward * _weaponRange, ForceMode.Impulse);
             Destroy(FX, 1f);
             Destroy(bullet, 2f);
-
         }
     }
-    private void GetMousePostiton(bool suc, Vector3 position) {
+
+    private void GetMousePostiton(bool suc, Vector3 position)
+    {
         this.success = suc;
         this.position = position;
         var ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -92,11 +104,13 @@ public class Shooting : MonoBehaviour
             suc = true;
             position = hitInfo.point;
         }
-        else {
+        else
+        {
             suc = false;
             position = Vector3.zero;
         }
     }
+
     private void Aim()
     {
         GetMousePostiton(success, position);
@@ -107,10 +121,10 @@ public class Shooting : MonoBehaviour
             transform.forward = direction;
         }
     }
- 
 
-    private void ShootingRaycast() {
 
+    private void ShootingRaycast()
+    {
         fireTimer += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Mouse0) && fireTimer > fireRate)
         {
@@ -127,10 +141,13 @@ public class Shooting : MonoBehaviour
             {
                 laserLine.SetPosition(1, rayOrigin + (cam.transform.forward * gunRange));
             }
+
             StartCoroutine(ShootLaser());
         }
     }
-    IEnumerator ShootLaser() {
+
+    IEnumerator ShootLaser()
+    {
         laserLine.enabled = true;
         yield return new WaitForSeconds(laserDuration);
         laserLine.enabled = false;

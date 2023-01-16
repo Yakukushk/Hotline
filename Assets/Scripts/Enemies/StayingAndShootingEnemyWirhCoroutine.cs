@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class StayingAndShootingEnemy : MonoBehaviour
+public class StayingAndShootingEnemyWithCoroutine : MonoBehaviour
 {
     [SerializeField] private float timeBeforeRotateOnPlayer = 1f;
     [SerializeField] private float speedOfRotation = 20f;

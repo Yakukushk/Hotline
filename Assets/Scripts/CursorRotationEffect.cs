@@ -12,12 +12,16 @@ public class CursorRotationEffect : MonoBehaviour
     {
         PlayerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<movement>();
     }
+
     private void Update()
     {
         EffectRotation();
     }
-    public void EffectRotation() {
-        if (PlayerMovement.isActiveMovement == true) {
+
+    public void EffectRotation()
+    {
+        if (PlayerMovement.isActiveMovement == true)
+        {
             Vector3 rot = new Vector3(0, 0, zValue);
             this.transform.eulerAngles = rot;
             zValue += mod;
@@ -26,11 +30,11 @@ public class CursorRotationEffect : MonoBehaviour
                 mod = -0.1f;
                 Debug.Log("First con working!" + " " + mod);
             }
-            else if (transform.eulerAngles.z < 355.0f && transform.eulerAngles.z > 350.0f) {
+            else if (transform.eulerAngles.z < 355.0f && transform.eulerAngles.z > 350.0f)
+            {
                 mod = 0.1f;
-                Debug.Log("Second con working!" + " " + mod);   
-            } 
-
+                Debug.Log("Second con working!" + " " + mod);
+            }
         }
     }
 }
